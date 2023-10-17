@@ -12,215 +12,245 @@ table {
  font-size: 2em;
  font-family: monospace;
 }
-
 </style>
 
 <script type="text/javascript">
-
 function sleep(millis){
 	return new Promise(function(resolve,reject){
 		setTimeout(resolve, millis)
 	});	
 }
 
-window.onload = () => {
-	no1.onclick = () => {
-		let w = new EarthWorm();
-		console.log(w);
-		
-	}
-		
+class Alpha {
+	 static colors = [
+	        'Black',
+	        'Red',
+	        'Green',
+	        'Yellow',
+	        'Blue',
+	        'Magenta',
+	        'Cyan',
+	        'White',
+	    ];
+	constructor() {
+        this.line = 10;
+        this.column = 20;
+        do {
+            this.fg = Alpha.colors[parseInt(Math.random() * 8)];
+            this.bg = Alpha.colors[parseInt(Math.random() * 8)];
+        } while (this.fg == this.bg);
+
+        this.ch = String.fromCharCode(Math.random() * 26 + 'A'.charCodeAt(0));
+    }
 }
 
-class EarthWorm {
+class Fill {
+	 
 	
-	constructor(){
-		this.run();
+	constructor() {
+		this.a = new Alpha();
+		this.b = new Alpha();
+		this.b.column = (this.a.column+1);
+		this.c = new Alpha();
+		this.c.column = (this.a.column+2);
+		this.d = new Alpha();
+		this.d.column = (this.a.column+3);
+		
+		this.arr = [this.a, this.b,this.c,this.d];
+		
+		this.direction = 4;
+		
+		this.show();	
 	}
-		
-	async run(){
-		let response = await fetch('/alpha/data');
-		this.alpha1 = await response.json();
-		this.alpha1.column = 6;
-		this.alpha1.ch ="J";
-		console.log(this.alpha1);
-		
-		let response2 = await fetch('/alpha/data');
-		this.alpha2 = await response2.json();
-		this.alpha2.ch ="A";
-		this.alpha2.line=this.alpha1.line;
-		this.alpha2.column=this.alpha1.column+1;
-		console.log(this.alpha2);
-		
-		let response3 = await fetch('/alpha/data');
-		this.alpha3 = await response3.json();
-		this.alpha3.ch ="V";
-		this.alpha3.line=this.alpha1.line;
-		this.alpha3.column=this.alpha1.column+2;
-		console.log(this.alpha3);
-		
-		let response4 = await fetch('/alpha/data');
-		this.alpha4 = await response4.json();
-		this.alpha4.ch ="A";
-		this.alpha4.line=this.alpha1.line;
-		this.alpha4.column=this.alpha1.column+3;
-		console.log(this.alpha4);
-		
-		this.a =[this.alpha1,this.alpha2,this.alpha3,this.alpha4];
-	
-		this.show();
-		
-		for(let i=0; i<10; i++){
-		await sleep(1000);
-		
-		this.move();
-		}
-	}
-		
 	
 	
 	show() {
-		let table = document.querySelector("table");
 		
-		for(let i=0; i<this.a.length; i++){
-			let td = table.rows[this.a[i].line-1].cells[this.a[i].column-1];
-			td.style.background= this.a[i].bg;
-			td.style.color=this.a[i].fg;
-			td.innerText = this.a[i].ch;
+		for(let i=0; i<this.arr.length; i++){
+			let td = surface.rows[this.arr[i].line-1].cells[this.arr[i].column-1];
+			td.style.background= this.arr[i].bg;
+			td.style.color=this.arr[i].fg;
+			td.innerText = this.arr[i].ch;	
 		}
 	}
 	
 	hide() {
-		let table = document.querySelector("table");
-		for(let i=0; i<this.a.length; i++){
-			let td = table.rows[this.a[i].line-1].cells[this.a[i].column-1];
+		for(let i=0; i<this.arr.length; i++){
+			let td = surface.rows[this.arr[i].line-1].cells[this.arr[i].column-1];
 			td.style.background= 'black';
-			td.style.color='black';			
+			td.style.color='black';	
+			console.log("hide");
 		}
 		
 	}
 	
-	move() {
+	moveHead() {
 		this.hide();
+		 switch(this.direction){
+		 case 1:
+			 this.arr[0].line--;
+			 break;
+		 case 2:
+			 this.arr[0].column++;
+			 break;
+		 case 3:
+			 this.arr[0].line++;
+			 break;	
+		 case 4:
+			 this.arr[0].column--;
+			 break;	 
+		 }
 		
-		for(let i=0; i<this.a.length; i++){					
-			this.a[i].column--;
-		 
-			if(this.a[i].column == 0){
-			 this.a[i].column=40;
-		  }
+		 let td1 = surface.rows[this.arr[0].line-1].cells[this.arr[0].column-1];
+			td1.style.background= this.arr[0].bg;
+			td1.style.color=this.arr[0].fg;
+			td1.innerText = this.arr[0].ch;	;
+		
+		this.pLine=[];	
+		this.pColumn=[];
+		
+		this.pLine.push(this.arr[0].line);
+		this.pColumn.push(this.arr[0].column);
+		
+		console.log(this.pLine);
+		console.log(this.pColumn); 
+		
+		
+	/* 	for(let i =1; i<this.arr.length; i++){
+		this.arr[i].line= this.pLine[0];
+		this.arr[i].column= this.pColumn[0];}
+   
+    for(let i =1; i<this.arr.length; i++){
+    	this.hide();
+		let td2 = surface.rows[this.arr[i].line-1].cells[this.arr[i].column-1];
+		td2.style.background= this.arr[i].bg;
+		td2.style.color=this.arr[i].fg;
+		td2.innerText = this.arr[i].ch;	 */
+	  
+	
+		
+	}
+	
+	/* moveChild() {
+		 /*  this.hide(); 
+		  
+		  
+		  
+		for(let i =1; i<this.arr.length; i++){
+			let td = surface.rows[this.arr[i].line-1].cells[this.arr[i].column-1];
+			td.style.background= this.arr[i].bg;
+			td.style.color=this.arr[i].fg;
+			td.innerText = this.arr[i].ch;	
 		}
 		
-		this.show();	
 	}
- }
+	 */
+	 
+	 
+	 /* moveChild() {
+		 /* this.hide(); 
+		 
+		 for(let i =1; i<this.arr.length; i++){
+			/*  this.hide(); 
+			let td = surface.rows[this.arr[i].line-1].cells[this.arr[i].column-1];
+			/*  switch(this.direction){
+			 case 1:
+				 this.arr[i].line--;
+				 break;
+			 case 2:
+				 this.arr[i].column++;
+				 break;
+			 case 3:
+				 this.arr[i].line++;
+				 break;	
+			 case 4:
+				 this.arr[i].column--;
+				 break;	 
+			 }	  
+			    
+				td.style.background= this.arr[i].bg;
+				td.style.color=this.arr[i].fg;
+				td.innerText = this.arr[i].ch;	
+			}
+		 
+	 } */
+	 
+	 draw(line,column,bg,fg) {
+	  
+		 let td = surface.rows[line].cells[column]; 
+		 td.style.background= bg;
+			td.style.color= fg;
+	 }
+	 
+	 hide2(line,column,bg,fg) {
+		  
+			 let td = surface.rows[line].cells[column]; 
+			 td.style.background= 'black';
+			td.style.color= 'black';
+		 }
+	 
+	 
+	async run() {
+		
+		for(let i=0; i<5; i++){
+			await sleep(1000);
+		   
+			this.moveHead();
+			for(let i =1; i<this.arr.length; i++){
+				this.hide2(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg);
+			}
+		    
+			for(let i =1; i<this.arr.length; i++){
+				
+				switch(this.direction){
+				 case 1:
+					 this.arr[i].line--;
+					 break;
+				 case 2:
+					 this.arr[i].column++;
+					 break;
+				 case 3:
+					 this.arr[i].line++;
+					 break;	
+				 case 4:
+					 this.arr[i].line= this.pLine[0];
+					 this.arr[i].column= ++this.pColumn[0];
+					 this.arr[i].column--;
+					 break;	 
+				 }	 
+				
+				
+			
+			this.draw(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg);
+				}
+		
+		   
+		}
+	
+		
+	} 
+}
+
+window.onload = function() {
+	Btn.onclick= function () {
+		let a = new Fill();
+		console.log(a);							
+		
+		
+			
+		a.run();
+		
+		
+		/* setTimeout(()=> a.hide(), 2000); */
+	}
+	
+}
 
 
 </script>
-	
-<!-- /* async function run(){
-	
-	let response = await fetch('/alpha/data');
-	let alpha = await response.json();
-	console.log(alpha);
-	
-	let response2 = await fetch('/alpha/data');
-	let alpha2 = await response2.json();
-	console.log(alpha2);
-	
-	let response3 = await fetch('/alpha/data');
-	let alpha3 = await response3.json();
-	console.log(alpha3);
-	
-	let response4 = await fetch('/alpha/data');
-	let alpha4 = await response4.json();
-	console.log(alpha4);
-	
-	show();
-	
-	move();
-	
-
-function show() {
-	let table = document.querySelector("table");
-	let td = table.rows[alpha.line-1].cells[alpha.column-5];
-	td.style.background= alpha.bg;
-	td.style.color=alpha.fg;
-	td.innerText ="J";
-	
-	let td2 = td.nextElementSibling;
-	td2.style.background=alpha2.bg;
-	td2.style.color=alpha2.fg;
-	td2.innerText="A";
-	
-	let td3 = td2.nextElementSibling;
-	td3.style.background=alpha3.bg;
-	td3.style.color=alpha3.fg;
-	td3.innerText="V";
-	
-	let td4 = td3.nextElementSibling;
-	td4.style.background=alpha4.bg;
-	td4.style.color=alpha4.fg;
-	td4.innerText="A";
-	
-}
-
-function move(){
-	for(let i=0; i<5;i++){
-		alpha.line--;
-		alpha2.line--;
-		alpha3.line--;
-		alpha4.line--;
-		
-	}
-	
-} }
-
-no1.onclick= () => {
-	run();
-} */
-
-/* window.onload = ()=> {
-	
-	no1.onclick= e => { run(); }
-	
-	async function run() {
-		let response = await fetch('/alpha/data');
-		let alpha = await response.json();
-		console.log(alpha);
-		
-		let response2 = await fetch('/alpha/data');
-		let alpha2 = await response2.json();
-		console.log(alpha2);
-		
-		let response3 = await fetch('/alpha/data');
-		let alpha3 = await response3.json();
-		console.log(alpha3);
-		
-		let response4 = await fetch('/alpha/data');
-		let alpha4 = await response4.json();
-		console.log(alpha4);
-		
-		show(alpha);
-		//show(alpha2);
-	}
-	
-	function show(alpha) {
-		let table = document.querySelector("table");
-		let td = table.rows[alpha.line-1].cells[alpha.column-5];
-		td.style.background= alpha.bg;
-		td.style.color=alpha.fg;
-		td.innerText ="J";
-		
-	}
-	
-	
-}
- */ -->
-
 </head>
 <body>
-<button id="no1">JAVA</button>
+<button id="Btn">JAVA</button>
 <table id="surface">
 	<tbody>
 		<c:forEach var="i" begin="0" end="${surface.size()-1}" >
