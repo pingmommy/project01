@@ -1,0 +1,35 @@
+/*  for(let i=1; i<this.arr.length;i++){
+			 this.hide(this.arr[i].line,this.arr[i].column+i);
+			 this.arr[i].column=p;
+			 this.show(this.arr[i].line,this.arr[i].column+i,this.arr[i].bg,this.arr[i].fg);
+		 } */
+		 
+		 
+		 for(let i=1; i<this.arr.length;i++){
+			/*  this.hide(this.arr[i].line+i,this.arr[i].column); */
+			 this.arr[i].line=pl;
+			 console.log(i+":"+this.arr[i].line);
+			/*  this.show(this.arr[i].line+i,this.arr[i].column,this.arr[i].bg,this.arr[i].fg); */
+		 }
+		}
+
+
+
+this.l=this.arr[0].line 값을 넣은 배열
+d= 향상된 for문에서 배열 ㅣ의 값을 차례대로 담는 변수 
+pl = 자식 알파의 라인에 값을 넣기 위한 변수 
+
+
+this.arr[0].line++; 일 때
+pl()=d-1;
+
+this.arr[0].line--; 일 때
+pl()=d+1;
+
+
+this.c=this.arr[0].column 값을 넣은 배열
+e= 향상된 for문에서 배열 c의 값을 차례대로 담는 변수 
+pc = 자식 알파의 컬럼에 값을 넣기 위한 변수
+
+this.arr[0].column++; 일 때
+pl()=d+1;
