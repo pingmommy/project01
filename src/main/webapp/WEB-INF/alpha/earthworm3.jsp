@@ -46,20 +46,6 @@ class Alpha {
          this.ch = "@";
     }
 	
-	show(line,column,bg,fg,ch) {				
-		let td = surface.rows[line-1].cells[column-1];
-		td.style.background= bg;
-		td.style.color= fg;
-		td.innerText =ch;
-		
-	}
-
-	hide(line,column) {				
-		let td = surface.rows[line-1].cells[column-1];
-		td.style.background= 'black';
-		td.style.color= 'black';			
-	}
-	
 }
 
 
@@ -74,7 +60,7 @@ class Fill {
 		this.c.column = (this.a.column+2);		
 		/* this.d = new Alpha(); */
 		
-		this.arr = [this.a,this.b,this.c];
+		this.arr = [this.b,this.c];
 		this.trail=[];
 		
 		this.direction =0;
@@ -85,33 +71,52 @@ class Fill {
 	}
 	
 	init(){
-		this.show(this.a.line,this.a.column,this.a.bg,this.a.fg,this.a.ch); 
-		this.show(this.arr[0].line,this.arr[0].column,this.arr[0].bg,this.arr[0].fg,this.arr[0].ch); 
-		this.show(this.arr[1].line,this.arr[1].column,this.arr[1].bg,this.arr[1].fg,this.arr[0].ch); 
-		
+		this.show(this.a.line,this.a.column,this.a.bg,this.a.fg); 
+		this.show(this.arr[0].line,this.arr[0].column,this.arr[0].bg,this.arr[0].fg); 
+		this.show(this.arr[1].line,this.arr[1].column,this.arr[1].bg,this.arr[1].fg); 
+		this.trail.push({
+			x:this.arr[0].line,
+			y:this.arr[0].column
+		})
+		this.trail.push({
+			x:this.a.line,
+			y:this.a.column
+		});
 	}
 	
 
+	show(line,column,bg,fg) {				
+			let td = surface.rows[line-1].cells[column-1];
+			td.style.background= bg;
+			td.style.color= fg;
+			td.innerText = this.arr[0].ch;
+			
+		}
 	
+	hide(line,column) {				
+		let td = surface.rows[line-1].cells[column-1];
+		td.style.background= 'black';
+		td.style.color= 'black';			
+	}
 	 
 	 
 	 moveHead() {
 		
-		/* this.a.hide(this.a.line,this.a.column); */
+		this.hide(this.a.line,this.a.column);
 		
 		 switch(this.direction){
 		 case 0:
 			 this.a.line--;
-			 this.trail.unshift({
+			 this.trail.push({
 					x:this.a.line,
 					y:this.a.column
 				})
 			 break;
 		 case 1:
 			 this.a.column--;
-			 this.trail.unshift({
+			 this.trail.push({
 					x:this.a.line,
-					y:this.a.column
+					y:this.a.column+1
 				})
 			 break;
 		 case 2:
@@ -120,50 +125,59 @@ class Fill {
 		
 		 }
 		
-		
-		if(this.trail.length > this.arr.length){
-			this.trail= this.trail.slice(0,this.arr.length);
-		}
-		
-		console.log(this.trail);
-		console.log("arr.length : "+this.arr.length);
-		
-	 }
-	 
-	 
-	movechild() {
-		
-		 for(let i=0; i<this.arr.length; i++){
-			 this.arr[i].hide(this.arr[i].line,this.arr[i].column);
-			 }
+		console.log("a.line : "+ this.a.line+" a.column : "+this.a.column)
+		this.show(this.a.line,this.a.column,this.a.bg,this.a.fg);
 	
 		
 		
+		if(this.trail.length > this.arr.length){
+			this.trail.shift();
+		}
+		
+		console.log(this.trail);
+		
+	 }
+	 
+	 
+	 movechild() {
+		
+		 let m = [];
+		 let n = [];
+		 
+		 for(let e of this.trail){
+			 m=e.x;
+			 n=e.y;
+		 }
+		
 		 for(let i=0; i<this.arr.length; i++){
-			 this.arr[i].line  = this.trail[i].x;
-			 this.arr[i].column = this.trail[i].y;
-			 this.arr[i].show(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg,this.arr[i].ch);
-			 
+			 this.hide(this.arr[i].line,this.arr[i].column); 
+		   	console.log("m  :"+m +" n  : "+ n);	 
+	   		 this.arr[i].line =m;
+	   		 this.arr[i].column =n+i;
+			 this.show(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg); 
 			 }
 		 
 	 }
 	 
-	 async run(){	
-		 for(let i=0; i<this.arr.length;i++){
-			 this.arr[i].show(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg,this.arr[i].ch);
-			 this.trail.push({
-					x:this.arr[0].line,
-					y:this.arr[0].column
-				})
-		 }
-		 console.log(this.trail);
+	 hello(){
+		 console.log("....");
+	 }
+	 
+	 async run(){
+	
+		
+		this.init();
+		
+		 for(let i=0;i<6;i++){
 		 
-		 for(let i=0;i<4;i++){		 
 			 await sleep(1000);
 			 this.moveHead(); 	
 			this.movechild();  
-		 } 
+			
+			
+		 }
 		 
+	
 	 }
 	
 }
