@@ -61,30 +61,15 @@ class Fill {
 		/* this.d = new Alpha(); */
 		
 		this.arr = [this.b,this.c];
-		this.trail=[];
-		
-		this.direction =0;
+		this.c=null;
+		this.l=null;
+		this.direction =1;
 		/* this.direction = parseInt(Math.random()*3); */
 
-		console.log(this.a);
 		console.log(this.arr);
 	}
 	
-	init(){
-		this.show(this.a.line,this.a.column,this.a.bg,this.a.fg); 
-		this.show(this.arr[0].line,this.arr[0].column,this.arr[0].bg,this.arr[0].fg); 
-		this.show(this.arr[1].line,this.arr[1].column,this.arr[1].bg,this.arr[1].fg); 
-		this.trail.push({
-			x:this.arr[0].line,
-			y:this.arr[0].column
-		})
-		this.trail.push({
-			x:this.a.line,
-			y:this.a.column
-		});
-	}
-	
-
+	step =0;
 	show(line,column,bg,fg) {				
 			let td = surface.rows[line-1].cells[column-1];
 			td.style.background= bg;
@@ -99,25 +84,17 @@ class Fill {
 		td.style.color= 'black';			
 	}
 	 
-	 
+	 isChange = false;
 	 moveHead() {
 		
-		this.hide(this.a.line,this.a.column);
+		this.hide(this.arr[0].line,this.arr[0].column);
 		
 		 switch(this.direction){
 		 case 0:
 			 this.a.line--;
-			 this.trail.push({
-					x:this.a.line,
-					y:this.a.column
-				})
 			 break;
 		 case 1:
 			 this.a.column--;
-			 this.trail.push({
-					x:this.a.line,
-					y:this.a.column+1
-				})
 			 break;
 		 case 2:
 			 this.a.line++;
@@ -125,59 +102,66 @@ class Fill {
 		
 		 }
 		
-		console.log("a.line : "+ this.a.line+" a.column : "+this.a.column)
-		this.show(this.a.line,this.a.column,this.a.bg,this.a.fg);
-	
+		this.show(this.arr[0].line,this.arr[0].column,this.arr[0].bg,this.arr[0].fg);
 		
+		this.step++;
+		console.log("step"+this.step);
 		
-		if(this.trail.length > this.arr.length){
-			this.trail.shift();
+		if(this.step==3){
+			this.direction = 2;
+			this.step=0;
+			this.isChange=true;
 		}
 		
-		console.log(this.trail);
+		if(this.isChange){
+			this.l = this.arr[0].line;
+			this.c = this.arr[0].column;
+			console.log("this.L :"+this.l+"this.C :"+this.c);
+			this.isChange= !this.isChange;
+			console.log("change: "+this.isChange)
+		}
 		
+		console.log("parent : "+this.l+","+ this.c)
 	 }
 	 
+	 cStep = [0,0,0];
+	 cDirection = 1;
 	 
-	 movechild() {
-		
-		 let m = [];
-		 let n = [];
-		 
-		 for(let e of this.trail){
-			 m=e.x;
-			 n=e.y;
-		 }
-		
-		 for(let i=0; i<this.arr.length; i++){
-			 this.hide(this.arr[i].line,this.arr[i].column); 
-		   	console.log("m  :"+m +" n  : "+ n);	 
-	   		 this.arr[i].line =m;
-	   		 this.arr[i].column =n+i;
-			 this.show(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg); 
+	 movechild() {		 		 
+		 for(let i=0; i<this.arr.length; i++){	
+			 
+	   		 this.hide(this.arr[i].line,this.arr[i].column); 
+			 
+			 switch(this.cDirection){
+			 case 0:
+				 this.arr[i].line--;
+				 
+				 break;
+			 case 1:
+				 this.arr[i].column--;
+				 break;
+			 case 2:
+				 this.arr[i].line++;
+				 break;	
+			
 			 }
-		 
-	 }
-	 
-	 hello(){
-		 console.log("....");
+			 this.show(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg);
+		 }
 	 }
 	 
 	 async run(){
 	
+		this.show(this.arr[0].line,this.arr[0].column,this.arr[0].bg,this.arr[0].fg); 
+		this.show(this.arr[1].line,this.arr[1].column,this.arr[1].bg,this.arr[1].fg); 
+		this.show(this.arr[2].line,this.arr[2].column,this.arr[2].bg,this.arr[2].fg); 
 		
-		this.init();
 		
-		 for(let i=0;i<6;i++){
+		 for(let i=0;i<3;i++){
 		 
-			 await sleep(1000);
-			 this.moveHead(); 	
-			this.movechild();  
-			
-			
-		 }
-		 
-	
+		 await sleep(1000);
+		 this.moveHead(); 	
+		 this.movechild(); 
+		 } 
 	 }
 	
 }
