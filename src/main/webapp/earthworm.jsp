@@ -78,11 +78,34 @@ class Fill {
 		this.trail=[];
 		
 
-		this.direction = parseInt(Math.random()*3); 
+		 this.direction = 1;  
+		
 
 		console.log(this.a);
-		console.log(this.arr);
-		console.log(this.direction);
+		/* console.log(this.arr); */
+	/* 	console.log(this.direction); */
+	}
+	
+	init(){
+		 for(let i=0; i<this.arr.length;i++){
+			 this.arr[i].show(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg,this.arr[i].ch);
+			 this.trail.push({
+					x:this.arr[i].line,
+					y:this.arr[i].column
+				})
+		 }
+		
+	}
+	
+	check_trail(){
+		if(this.a.column>40)
+			this.a.column=1;
+		else if(this.a.column==0)
+			this.a.column=40;
+		else if(this.a.line>20)
+			this.a.line=1;
+		else if(this.a.line==0)
+			this.a.line=20;
 	}
  
 	 step =0;
@@ -93,6 +116,7 @@ class Fill {
 		 switch(this.direction){
 		 case 0:
 			 this.a.line--;
+			 this.check_trail();
 			 this.trail.unshift({
 					x:this.a.line,
 					y:this.a.column
@@ -101,6 +125,7 @@ class Fill {
 			 break;
 		 case 1:
 			 this.a.column--;
+			 this.check_trail();
 			 this.trail.unshift({
 					x:this.a.line,
 					y:this.a.column
@@ -109,6 +134,7 @@ class Fill {
 			 break;
 		 case 2:
 			 this.a.line++;
+			 this.check_trail();
 			 this.trail.unshift({
 					x:this.a.line,
 					y:this.a.column
@@ -127,13 +153,12 @@ class Fill {
 		
 		
 		if(this.step == 3){
-			this.direction = parseInt(Math.random()*3); 
-			console.log(this.direction);
+			 this.direction = parseInt(Math.random()*3);   
 			this.step=0;
 		}
 		
-		console.log(this.trail);
-		console.log("arr.length : "+this.arr.length);
+		/* console.log(this.trail);
+		console.log("arr.length : "+this.arr.length); */
 		
 	 }
 	 
@@ -156,17 +181,13 @@ class Fill {
 	 }
 	 
 	 async run(){	
-		 for(let i=0; i<this.arr.length;i++){
-			 this.arr[i].show(this.arr[i].line,this.arr[i].column,this.arr[i].bg,this.arr[i].fg,this.arr[i].ch);
-			 this.trail.push({
-					x:this.arr[0].line,
-					y:this.arr[0].column
-				})
-		 }
-		 console.log(this.trail);
+		
+		 this.init();
 		 
-		 for(let i=0;i<20;i++){		 
-			 await sleep(500);
+		/*  console.log(this.trail); */
+		 
+		 for(let i=0;i<100;i++){		 
+			 await sleep(300);
 			 this.moveHead(); 	
 			this.movechild();  
 		 } 
@@ -190,14 +211,13 @@ class Fill {
 <button id="Btn">JAVA</button>
 <table id="surface">
 	<tbody>
-		<c:forEach var="i" begin="0" end="${surface.size()-1}" >
-		<tr>
-			<c:forEach var="j" begin="0" end="${surface[i].size()-1}">
-			<c:set var="alpha" value="${surface[i][j]}"/>
-				<td style="background: black;">${alpha.ch}</td>
-			</c:forEach>
-		</tr> 				
-		</c:forEach>
+	<c:forEach var="i" begin="0" end="19">
+	  <tr>
+	 <c:forEach var ="j" begin="0" end="39">
+		<td style="background:black;">A</td>	
+	</c:forEach>
+	</tr> 
+    </c:forEach>
 	</tbody>
 </table>
 </body>
