@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <script type="text/javascript" src="/webjars/jquery/jquery.js"></script>
 <title>race.jsp</title>
-<link rel="stylesheet" href="/css/box.css">
+
 <style type="text/css">
 #table1 {
 	border-collapse: collapse;
@@ -23,7 +23,7 @@
 }
 
 td {
-	text-align: center;
+	text-align: right;
 }
 
 div {
@@ -37,9 +37,8 @@ div > table {
 	margin: 10px;
 }
 
-#Th, #round, #count, #ellipse {
-	font-size: 1.5em;
-	
+.center {
+	margin: 0px auto;
 }
 
 </style>
@@ -199,19 +198,20 @@ function list_click(e){
 
 </head>
 <body style="background: white; ">
-<h1 class="center">RAICING ALPHA</h1>
+<h1>Ajax = fetch 활용</h1>
+<hr>
+<button id="startbtn">start</button>
 
-<button id="startbtn" class="button_2 green t-white">start</button>
-
-<div style="text-align: center;">
+<hr>
 <table class="center">
-<thead id ="Th">
+<thead>
 	<th>round</th><th>count</th><th>second</th>
 </thead>
 <tbody>
 	<td id="round">0</td><td id="count">0</td><td id="ellipse">0</td>
 </tbody>
 </table>
+<div style="text-align: center;">
 <table id="table1" onmousedown="event.preventDefault();" oncontextmenu="event.preventDefault();">
 <tbody>
 	<c:forEach var="i" begin="0" end="${surface.size()-1}">
@@ -224,7 +224,7 @@ function list_click(e){
 	</c:forEach>
 </tbody>
 </table>
-<table width="200"  id="stat">
+<table width="400" border="1px" id="stat">
  <thead>
  <tr>
  	<th>no</th><th>Alpha</th><th>roundCount</th>

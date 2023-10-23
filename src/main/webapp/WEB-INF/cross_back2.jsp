@@ -6,33 +6,18 @@
 <head>
 <meta charset="UTF-8">
 <title>cross.jsp</title>
-<link rel="stylesheet" href="/css/box.css">
 <style type="text/css">
 #surface {
 	border-collapse: collapse;
 	font-size: 150%;
 	font-family: monospace;
 	
-	border: 20px solid pink;
+	border: 20px outset pink;
 }
 
 #surface td{
   opacity: 0.8
 }
-
-div.center{
- margin-bottom: 20px;
-}
-
-#div_auto {
-	display: inline-block; 
-	font-size: 2.0em;
-	padding: 5px 0px 0px 0px ;
-	/* margin-bottom: 10px; */
-	
-	
-}
-
 </style>
 <script type="text/javascript">
 
@@ -150,15 +135,13 @@ window.onload = () => {
 
 </head>
 <body>
-<h1 class="center">CROSSING ALPHA</h1>
-<div class="center" >
-	<button id="createbtn" class="t-white plum shape">create</button>
-	<div id="div_auto" class="shape">
-	<input type="checkbox" id="auto" name="auto">
-	<label>AUTO</label>
-	</div>
-</div>	
-<table id="surface" onmousedown="event.preventDefault();" oncontextmenu="event.preventDefault();" class="table_1">
+<h1>Async/await +class 실습</h1>
+<hr>
+<button id="createbtn">create</button>
+<input type="checkbox" id="auto" name="auto">
+<label>AUTO</label>
+	<hr>
+<table id="surface" onmousedown="event.preventDefault();" oncontextmenu="event.preventDefault();">
 	<tbody>
 	<c:forEach var="i" begin="0" end="${surface.size()-1}">
 		<tr>

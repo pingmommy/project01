@@ -21,7 +21,7 @@
 
 .typing-demo {
   width: 28ch;
-  animation: typing 2s steps(28), blink .5s step-end infinite alternate;
+  animation: typing 3s steps(28), blink 500ms step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
   border-right: 3px solid;
@@ -32,6 +32,9 @@
 @keyframes typing {
   from {
     width: 0
+  }
+  to{
+  	 width: 28ch
   }
 }
     
