@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>cross.jsp</title>
+<title>pro/cross.jsp</title>
 <link rel="stylesheet" href="/css/box.css">
 <style type="text/css">
 #surface {
@@ -14,11 +14,10 @@
 	font-family: monospace;
 	
 	border: 20px solid pink;
+	
+	background: black;
 }
 
-#surface td{
-  opacity: 0.8
-}
 
 div.center{
  margin-bottom: 20px;
@@ -32,6 +31,9 @@ div.center{
 	
 	
 }
+
+
+ke
 
 </style>
 <script type="text/javascript">
@@ -48,27 +50,29 @@ class Cross{
 	
 	constructor(){
 		this.direction =parseInt(Math.random()*4);
-		this.speed = Math.random()*200+10;
+		/* this.speed = Math.random()*200+10; */
 	}
 
    show(){
 	 let td = surface.rows[this.alpha.line-1].cells[this.alpha.column-1]; 
    	 td.style.color = this.alpha.fg;	
    	 td.style.background = this.alpha.bg;	
-   	 td.innerText = this.alpha.ch;	
+   	 td.innerText = this.alpha.ch;
+   	 let keyframes =[{transform:"rotate(1000deg)"}];
+   	 let option = { duration : 500, iterations: Infinity,};
+   	 td.animate(keyframes,option);
    }
    
    hide(){
 	   let td = surface.rows[this.alpha.line-1].cells[this.alpha.column-1]; 
 	   	 td.style.color = 'black';	
 	   	 td.style.background ='black';
-	   
    }
    
    
-   move(){
+    move(){
 	 
-	    this.hide();
+	 this.hide(); 
 	   switch(this.direction){
 	   case 0:	// TOP
 			this.alpha.line--;
@@ -88,6 +92,8 @@ class Cross{
 	  if(this.alpha.column==0 || this.alpha.line==0 || this.alpha.column==41 || this.alpha.line==21){
 		   return false;
 	   }
+	  
+	  
 	     this.show();
 	     return true;
 	   
@@ -105,7 +111,7 @@ class Cross{
 	  for(;;){
 		 
 		
-		 await sleep(this.speed);
+		 await sleep(500);
 		 
 		 if(!this.move()){
 			 break;
@@ -125,24 +131,6 @@ window.onload = () => {
 		let cross = new Cross();
 		cross.run();
 	}
-	
-	d = document.querySelector('input');
-	d.onchange= async function() {
-	    
-		let c = d.checked;
-
-	    if(c){
-	    	
-	    	for(;;){
-	      /*   console.log("ddd"); */
-	        await sleep(500);
-	        
-	        let cross = new Cross();
-			cross.run();
-				
-	    	}
-	    }
-	}
 
 }
 </script>
@@ -150,13 +138,10 @@ window.onload = () => {
 
 </head>
 <body>
-<h1 class="center">CROSSING ALPHA</h1>
+<h1 class="center">pro ALPHA</h1>
 <div class="center" >
 	<button id="createbtn" class="t-white plum shape">create</button>
-	<div id="div_auto" class="shape">
-	<input type="checkbox" id="auto" name="auto">
-	<label>AUTO</label>
-	</div>
+	
 </div>	
 <table id="surface" onmousedown="event.preventDefault();" oncontextmenu="event.preventDefault();" class="table_1">
 	<tbody>
