@@ -60,7 +60,7 @@ $(function (){
 			race(alpha);					
 		}); }
 	
-	stat.onclick = list_click;
+	tb.onclick = list_click;
 	
 });
 
@@ -99,10 +99,11 @@ function race(alpha){
 	 tdCount.innerText = 0;
 	 
 	 
+	tid=[];
 	
-	
-	setTimeout(function move() {
-
+	tt = setTimeout(function move() {
+	tid.push(tt);
+	/* console.log(tid); */
 	let td = table1.rows[alpha.line-1].cells[alpha.column-1]
 	td.style.color = 'black';
 	td.style.background = 'black';
@@ -144,7 +145,7 @@ function race(alpha){
 	td.style.background = alpha.bg;
 	td.innerText = alpha.ch;
 	
-	setTimeout(move, 100)
+	tt=setTimeout(move, 100)
 	}, 100);
 	
 	count.innerText = ++count.innerText;
@@ -157,13 +158,17 @@ function race(alpha){
 
 function list_click(e){
 	let td = e.target;
-
+	console.log(e.target.previousElementSibling.innerText);
+	console.log(a[e.target.previousElementSibling.innerText-1]);
 	td.remove();
 	d= document.querySelector('#stat');
 	for(let i=0; i<d.tBodies[0].rows.length;i++){
 	    if(d.tBodies[0].rows[i].cells.length<3){
 	       d.tBodies[0].rows[i].remove();
-	   }
+	       console.log(i);
+	       a[i].bg='Black';
+	       clearTimeout(tt);
+	       console.log(a)}
 	}
 	console.log(this);
 	console.log(a);
@@ -230,7 +235,7 @@ function list_click(e){
  	<th>no</th><th>Alpha</th><th>roundCount</th>
  </tr>
  </thead>
- <tbody>
+ <tbody id="tb">
  </tbody>
 </table>
 </div>
