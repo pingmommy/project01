@@ -45,11 +45,27 @@ div > table {
 </style>
 
 <script type="text/javascript">
-num=0;
 
-tid=[];
+$(function (){	 
+	a=[];
+	startbtn.onclick = e => {
+				
+		fetch('/alpha/data')
+		.then(r => r.json())
+		.then(alpha => {
+		   a.push(alpha);
+		console.log("buttonEvent"+a);
+			race(alpha);					
+		}); }
+	
+	tb.onclick = list_click;
+	
+});
+
 function race(alpha){
 	
+	console.log(alpha);
+	//let cnt =0;
 	let speed = Math.random()*1000+10;
 	alpha.line =1;
 	alpha.column =1;
@@ -82,8 +98,8 @@ function race(alpha){
 	 
 	 
 
-	
-	tt = setInterval(function () {
+	tid=[];
+	tt = setTimeout(function move() {
 	/* console.log(tid); */
 	let td = table1.rows[alpha.line-1].cells[alpha.column-1]
 	td.style.color = 'black';
@@ -125,6 +141,8 @@ function race(alpha){
 	td.style.color = alpha.fg;
 	td.style.background = alpha.bg;
 	td.innerText = alpha.ch;
+	
+	tt=setTimeout(move, 100)
 	}, 100);
 	
 	tid.push(tt);
@@ -138,46 +156,50 @@ function race(alpha){
 	}
 }
 
-function remove(){
-	
-}
-
-
 function list_click(e){
 	let td = e.target;
-	console.log("targetsibling : "+e.target.previousElementSibling.innerText);
-	num = e.target.previousElementSibling.innerText-1;
-	console.log(num);
-	console.log(a[num]);
-	a[num].bg='black';
+	console.log("targetsibling"+e.target.previousElementSibling.innerText);
+	console.log(a[e.target.previousElementSibling.innerText-1]);
 	td.remove();
-	
 	d= document.querySelector('#stat');
 	for(let i=0; i<d.tBodies[0].rows.length;i++){
 	    if(d.tBodies[0].rows[i].cells.length<3){
 	       d.tBodies[0].rows[i].remove();
+	       console.log("i"+i);
+	       a[i].bg='Black';
+	       clearTimeout(tt);
+	       //console.log(a)}
 		}
 	}
-	      
+	/* console.log(this); */
+	//console.log(a);
 
+	//console.log(e.target.innerText);
+	
+/* 	for(let i=0;i<a.length;i++){
+		if(a[i].bg== 'Cyan'){
+			a[i].bg='black';
+		}
+	}
+	 */
+	for(let i=0;i<a.length;i++){
+		if(a[i].ch== 'Q'){
+			a[i].bg='black';
+		}
+	}
+	
+	
+	 
+	 /* 참조 
+	 for(let i = 0; i < arr.length; i++) {
+  if(arr[i] === 'b')  {
+    arr.splice(i, 1);
+    i--;
+  }
 }
-
-$(function (){	 
-	a=[];
-	
-	startbtn.onclick = e => {
-				
-		fetch('/alpha/data')
-		.then(r => r.json())
-		.then(alpha => {
-		   a.push(alpha);
-		console.log("buttonEvent"+a);
-			race(alpha);					
-		}); }
-	
-	tb.onclick = e=>{ list_click(e); clearInterval(tid[num])};
-	
-});
+	 
+	 */
+}
 
 </script>
 
