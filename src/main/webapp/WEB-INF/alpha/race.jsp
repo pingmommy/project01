@@ -13,9 +13,10 @@
 	border-collapse: collapse;
 	font-size: 2em;
 	font-family: monospace;
-	background-image: url("/media/fubao.jpg");
+	/* background-image: url("/media/fubao.jpg");
 	background-size: 100%;
-	background-repeat: no-repeat;
+	background-repeat: no-repeat; */
+	background: black;
 }
 
 #startbtn {
@@ -149,7 +150,8 @@ function list_click(e){
 	num = e.target.previousElementSibling.innerText-1;
 	console.log(num);
 	console.log(a[num]);
-	a[num].bg='black';
+	let d=$('#table1')[0].rows[a[num].line-1].cells[a[num].column-1];
+	 d.style.visibility='hidden';
 	td.remove();
 	
 	d= document.querySelector('#stat');
@@ -196,19 +198,19 @@ $(function (){
 	<td id="round">0</td><td id="count">0</td><td id="ellipse">0</td>
 </tbody>
 </table>
-<table id="table1" onmousedown="event.preventDefault();" oncontextmenu="event.preventDefault();">
+<table id="table1" onmousedown="event.preventDefault();" oncontextmenu="event.preventDefault();" class="l_orange">
 <tbody>
 	<c:forEach var="i" begin="0" end="${surface.size()-1}">
 		<tr>
 		<c:forEach var="j" begin="0" end="${surface.get(i).size()-1}">
 			<c:set var="alpha" value="${surface[i][j]}" />
-			<td style="background:black; color:black; opacity:0.5">${alpha.ch}</td>			
+			<td style="background:black; color:black;">${alpha.ch}</td>			
 		</c:forEach>
 		</tr>
 	</c:forEach>
 </tbody>
 </table>
-<table width="200"  id="stat">
+<table width="400"  id="stat">
  <thead>
  <tr>
  	<th>no</th><th>Alpha</th><th>roundCount</th>
