@@ -18,7 +18,6 @@
 	background: black;
 }
 
-
 div.center{
  margin-bottom: 20px;
 }
@@ -27,13 +26,21 @@ div.center{
 	display: inline-block; 
 	font-size: 2.0em;
 	padding: 5px 0px 0px 0px ;
-	/* margin-bottom: 10px; */
-	
-	
+	/* margin-bottom: 10px; */	
 }
 
+.vibration{
+	animation: vibration 0.1s infinite;
+}
 
-ke
+@keyframes vibration {
+  from {
+    transform: rotate(2deg);
+  }
+  to {
+    transform: rotate(-2deg);
+  }
+}
 
 </style>
 <script type="text/javascript">
@@ -44,7 +51,6 @@ function sleep(millis){
 	 setTimeout(resolve, millis)
 	});
 }
-
 
 class Cross{
 	
@@ -69,7 +75,6 @@ class Cross{
 	   	 td.style.background ='black';
    }
    
-   
     move(){
 	 
 	 this.hide(); 
@@ -88,11 +93,13 @@ class Cross{
 			break;
 	   }
 	   
-	   
 	  if(this.alpha.column==0 || this.alpha.line==0 || this.alpha.column==41 || this.alpha.line==21){
-		   return false;
+		  surface.rows[0].cells[19].style.visibility ='hidden';
+		  surface.rows[19].cells[19].style.visibility ='hidden';
+		  surface.rows[9].cells[0].style.visibility ='hidden';
+		  surface.rows[9].cells[39].style.visibility ='hidden'; 
+		  return false;
 	   }
-	  
 	  
 	     this.show();
 	     return true;
@@ -109,27 +116,31 @@ class Cross{
 		this.show();
 		
 	  for(;;){
-		 
-		
 		 await sleep(500);
 		 
 		 if(!this.move()){
 			 break;
 		 }
-		 
-		
 		}
 	}
-  
-  
 }
 
+
+function vibration(){
+	console.log("ccc");
+	  surface.classList.add("vibration");
+	
+	setTimeout(function(){
+		surface.classList.remove("vibration");
+	},400);
+}
 
 window.onload = () => {
 	
 	createbtn.onclick = () =>{
 		let cross = new Cross();
 		cross.run();
+		vibration();
 	}
 
 }

@@ -35,7 +35,8 @@
 
 </style>
 <script type="text/javascript">
-function example(target){
+
+window.onload = function (target){
 	console.log("ccc");
 	target.classList.add("vibration");
 	
@@ -43,11 +44,15 @@ function example(target){
 		target.classList.remove("vibration");
 	},400);
 }
+}
+
 </script>
 </head>
 <body>
-<div id="div" style="border: 1px solid red; width: 100px; height: 100px;" onclick="example(this)">
-https://gurtn.tistory.com/170
+<div id="div" style="border: 1px solid red; width: 100px; height: 100px;">
 </div>
+<div id="div2" style="border: 1px solid red; width: 100px; height: 100px;" >
+</div>
+<p>https://gurtn.tistory.com/170</p>
 </body>
 </html>

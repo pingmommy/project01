@@ -139,9 +139,7 @@ function race(alpha){
 	}
 }
 
-function remove(){
-	
-}
+
 
 
 function list_click(e){
@@ -220,5 +218,9 @@ $(function (){
  </tbody>
 </table>
 </div>
+<!-- 1 . 리스트에 알파객체가 남아 있는 상태에서 
+
+2. 알파객체를 추가하고 지우려고 하면
+2번의 알파객체는 지워지지  않는다.(테이블의 넘버링과 객체의 배열인덱스가 일치하지 않기 때문에.... ) : 다른 자료구조를 써야 겠다 .. -->
 </body>
 </html>
