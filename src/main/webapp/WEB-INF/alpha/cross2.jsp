@@ -5,26 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ani_cross.jsp</title>
+<title>cross.jsp</title>
 <link rel="stylesheet" href="/css/box.css">
 <style type="text/css">
-
-.spinner-box {
-	width: 478px;
-	height: 485px;
-	background-color: transparent;
-	border: 1px solid red;
-	margin:20px auto;
- }
-
 #surface {
 	border-collapse: collapse;
 	font-size: 150%;
 	font-family: monospace;
 	margin-bottom: 50px;
-	transform:rotate(45deg);
-	animation: configure-xclockwise 3s ease-in-out 0s infinite alternate; 
-	left: -115px;
 }
 
 #surface td{
@@ -39,54 +27,6 @@ div.text_center{
 	display: inline-block; 
 	font-size: 1.2em;
 }
-
-.confiqure-border-1 {
-	width: 478px;
-	height: 485px;
-	padding 3px;
-	position:absolute;
-	background:  #fb5b53;
-	animation: configure-clockwise 3s ease-in-out 0s infinite alternate; 
-	border: 10px solid blue;
-	
-	}
-	
-	@keyframes configure-clockwise {
-  		0%{
-  			transform: rotate(0);
-  		}
-  		25%{
-  			transform:rotate(90deg);
-  		}
-  		50%{
-  			transform:rotate(180deg);
-  		}
-  		75% {
-  			transform:rotate(270deg);
-  		}
-  		100%{
-  			transform:rotate(360deg);
-  		}
-  	}
-
-
-@keyframes configure-xclockwise{
-  	   0%{
-  	   		transform:rotate(45);
-  	   }
-  	   25%{
-  	   		transform:rotate(-45deg);
-  	   }
-  	   50%{
-  	   		transform:rotate(-135deg);
-  	   }
-  	   75% {
-  	   		transform:rotate(225deg);
-  	   }
-  	   100% {
-  	   		transform:rotate(-315deg);
-  	   }
-  	}
 
 </style>
 <script type="text/javascript">
@@ -176,17 +116,19 @@ class Cross{
 
 window.onload = () => {
 	
-/* 	createbtn.onclick = () =>{
+	createbtn.onclick = () =>{
 		let cross = new Cross();
-		cross.run(); 				
+		cross.run();
 	}
-	 */
 	
-	 createbtn.onclick =  async function() {
+	d = document.querySelector('input');
+	d.onchange=  async function() {
 	    
-		
+		 c = d.checked;
+		console.log(c);
 	  	
-		    for(;;){ 
+		    while(c){
+		      console.log("ddd"); 
 		        await sleep(100);
 		        
 		        let cross = new Cross();
@@ -201,24 +143,25 @@ window.onload = () => {
 
 </head>
 <body class="white">
-<h1 class="text_center t_purple">CROSSING ALPHA</h1>
-
-<button id="createbtn" class="button_2">create</button>
-	
-<div class="spinner-box">
-<div class="confiqure-border-1"></div>
-
-<table id="surface" onmousedown="event.preventDefault();" class="margin_center l_pink">
- <tbody>
-	<c:forEach var="row" items="${surface}">
-	<tr>
-		<c:forEach var="cells" items="${row}">
-			<td style="background:${cells.bg}; color:${cells.fg}; opacity:1.0">${cells.ch}</td>
+<h1 class="text_center t_green2">CROSSING ALPHA</h1>
+<div class="text_center" >
+	<button id="createbtn" class="white shape">CREATE</button>
+	<div id="div_auto" class="shape">
+	<input type="checkbox" id="auto" name="auto" onchange="console.log(this.checked)" >
+	<label>AUTO</label>
+	</div>
+</div>	
+<table id="surface" onmousedown="event.preventDefault();" oncontextmenu="event.preventDefault();" class="table_1 l_orange">
+	<tbody>
+	<c:forEach var="i" begin="0" end="${surface.size()-1}">
+		<tr>
+		<c:forEach var="alpha" items="${surface[i]}">
+			<td style="color:black; background:black;" >${alpha.ch}</td>
 		</c:forEach>
-	</tr>
+		</tr>
 	</c:forEach>
-</tbody>
+	</tbody>
 </table>
-</div>
+
 </body>
 </html>

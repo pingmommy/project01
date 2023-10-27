@@ -7,6 +7,14 @@
 <head>
 <meta charset="UTF-8">
 <title>test</title>
+<style type="text/css">
+table {
+	border-collapse: collapse;
+	width: 200px;
+}
+
+</style>
+
 <script type="text/javascript">
 
 	
@@ -27,9 +35,9 @@ function run(){
 <body>
 <button onclick="run();">PUSH</button>
 <table>
-<c:forEach var="i" begin="0" end="19">
+<c:forEach var="i" begin="0" end="5">
 	<tr>
-	<c:forEach var ="j" begin="0" end="39">
+	<c:forEach var ="j" begin="0" end="5">
 		<td style="background:black;">A</td>	
 	</c:forEach>
 	</tr> 
