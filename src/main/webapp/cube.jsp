@@ -103,8 +103,6 @@ td {
 
 </style>
 <script type="text/javascript">
-
-count=0;
 class Alpha {
 	static color =[
 		'#ff9bc1',
@@ -119,10 +117,6 @@ class Alpha {
 		this.column = parseInt(Math.random()*6);
 		this.bg = Alpha.color[parseInt(Math.random()*6)];
 	}
-	show(){
-		let td = t_front.rows[this.line].cells[this.column];
-		td.style.background=this.bg;
-	  }
 	}
 
 
